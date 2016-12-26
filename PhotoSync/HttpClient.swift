@@ -49,7 +49,8 @@ class HttpClient: NSObject {
         }
         
         var urlRequest = URLRequest(url: serverUrl)
-        
+        urlRequest.cachePolicy = .reloadIgnoringLocalCacheData
+        UIApplication.shared.isNetworkActivityIndicatorVisible = true
         if requestType == .ePOST{
             if let requestHeaders = headers{
                 for (key,value) in requestHeaders{
@@ -61,9 +62,8 @@ class HttpClient: NSObject {
         urlRequest.httpMethod = requestType.description
         
         Connection().connnectWithUrl(urlRequest: urlRequest, completionHandler:{ (error,data) -> Void in
-            
-            let string = String(data: data!, encoding: String.Encoding.utf8)
             completionHandler(error, data)
+            UIApplication.shared.isNetworkActivityIndicatorVisible = false
         })
     }
 }

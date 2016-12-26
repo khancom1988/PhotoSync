@@ -48,7 +48,7 @@
 			<string>com.bml.photosync</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>oauth-photosync://oauth-callback/flickr</string>
+				<string>oauth-photosync</string>
 			</array>
 		</dict>
 	</array>

@@ -8,12 +8,13 @@
 
 import UIKit
 
-class LoginViewController: UIViewController,UITextFieldDelegate {
-
-    @IBOutlet weak var signInButton: UIButton!
-    @IBOutlet weak var passwordTxtField: UITextField!
-    @IBOutlet weak var emailTxtField: UITextField!
+class LoginViewController: UIViewController {
     
+    @IBOutlet weak var signInButton: UIButton!
+   
+    deinit {
+        Oauth.default.callBack = nil
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
@@ -24,50 +25,38 @@ class LoginViewController: UIViewController,UITextFieldDelegate {
         // Dispose of any resources that can be recreated.
     }
     
-
+    
     /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
+     // MARK: - Navigation
+     
+     // In a storyboard-based application, you will often want to do a little preparation before navigation
+     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+     // Get the new view controller using segue.destinationViewController.
+     // Pass the selected object to the new view controller.
+     }
+     */
+    
     @IBAction func loginButtonAction(_ sender: Any) {
         
+        Oauth.default.oauth_callback = "oauth-photosync://oauth-callback/flickr"
+        Oauth.default.oauth_consumer_key = "61cbac5b962cbeb41853338b6c6f32bb"
+        Oauth.default.oauth_secret_key = "8c54fa4f64924a8a"
+        Oauth.default.requestMethod = .eGET
+        Oauth.default.requestToken()
         
-        let oauth_nonce = Utility.getNonce()
-        let oauth_timestamp = Utility.getTimestamp()
-
-        if let oauth_signature = Oauth.sign("https://www.flickr.com/services/oauth/request_token", "61cbac5b962cbeb41853338b6c6f32bb", "8c54fa4f64924a8a", oauth_nonce, oauth_timestamp, "oauth-photosync://oauth-callback/flickr", "HMAC-SHA1", "GET", nil){
-           
-            let url = String(format: "https://www.flickr.com/services/oauth/request_token?oauth_nonce=%@&oauth_timestamp=%@&oauth_consumer_key=%@&oauth_signature_method=HMAC-SHA1&oauth_version=1.0&oauth_signature=%@&oauth_callback=oauth-photosync://oauth-callback/flickr",oauth_nonce,oauth_timestamp,"61cbac5b962cbeb41853338b6c6f32bb",oauth_signature)
-
-            HttpClient.requestWith(url: url, completionHandler:{(error,data) -> Void in
-                
-            })
-            
-//            if let params = Oauth.prepareParametersWithValues("61cbac5b962cbeb41853338b6c6f32bb", "8c54fa4f64924a8a", oauth_nonce, oauth_timestamp, "oauth-photosync://oauth-callback/flickr", "HMAC-SHA1", "POST", nil){
-//                
-//                let url = String(format: "https://www.flickr.com/services/oauth/request_token")
-//                HttpClient.requestWith(url: url, requestType: RequestType.ePOST, parameters: nil, headers: params, completionHandler: { (error,data) in
-//                    
-//                })
-//            }
+        Oauth.default.callBack = {(success, message) -> Void in
+        
+            if (success){
+                self.dismiss(animated: true, completion: { 
+                    Oauth.default.callBack = nil
+                })
+            }
+            else{
+                let alert = UIAlertController(title: "Alert", message: message, preferredStyle: UIAlertControllerStyle.alert)
+                alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
+                self.present(alert, animated: true, completion: nil)
+            }
         }
-    }
-    
-    //MARK: UITextFieldDelegate
-    
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        if textField.returnKeyType == .next{
-            self.passwordTxtField.becomeFirstResponder()
-        }
-        else{
-            textField.resignFirstResponder()
-        }
-        return true
+        
     }
 }
