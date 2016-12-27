@@ -132,7 +132,13 @@
                             <constraint firstAttribute="trailing" secondItem="zwb-zx-pXW" secondAttribute="trailing" id="uvn-dM-X3Y"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="61e-d0-Jgu"/>
+                    <navigationItem key="navigationItem" id="61e-d0-Jgu">
+                        <barButtonItem key="leftBarButtonItem" title="Logout" id="302-ag-7wR">
+                            <connections>
+                                <action selector="logout:" destination="BYZ-38-t0r" id="uXD-4S-sPm"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="activityIndicator" destination="HPh-Y4-I1a" id="Q85-CV-7ho"/>
                         <outlet property="collectionView" destination="zwb-zx-pXW" id="jA7-Xr-zT9"/>

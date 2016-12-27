@@ -172,6 +172,7 @@
 				TargetAttributes = {
 					600C38851E097F3400E861E0 = {
 						CreatedOnToolsVersion = 8.1;
+						DevelopmentTeam = TBU5J8D7YN;
 						LastSwiftMigration = 0810;
 						ProvisioningStyle = Automatic;
 					};
@@ -375,6 +376,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				DEVELOPMENT_TEAM = TBU5J8D7YN;
 				INFOPLIST_FILE = PhotoSync/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.universe.com.PhotoSync;
@@ -390,6 +392,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				DEVELOPMENT_TEAM = TBU5J8D7YN;
 				INFOPLIST_FILE = PhotoSync/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.universe.com.PhotoSync;

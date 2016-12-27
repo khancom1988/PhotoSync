@@ -115,6 +115,14 @@ class Oauth  {
         return true
     }
 
+    public func logout() -> Void{
+        let userDefault = UserDefaults.standard
+        userDefault.removeObject(forKey: Oauth.kFlickrLoggedInAccessToken)
+        userDefault.removeObject(forKey: Oauth.kFlickrLoggedInUserID)
+        userDefault.removeObject(forKey: Oauth.kFlickrLoggedInUserName)
+        userDefault.removeObject(forKey: Oauth.kFlickrLoggedInConsumerKey)
+        userDefault.synchronize()
+    }
     
     private func sign(url:URL) -> String?{
         
@@ -250,7 +258,8 @@ class Oauth  {
         self.oauth_token = nil
         self.oauth_token_secret = nil
         self.oauth_verifier = nil
-
+        self.user_name = nil
+        self.user_id = nil
         if (self.callBack != nil){
             self.callBack?(status, message)
         }
@@ -273,5 +282,14 @@ class Oauth  {
     var user_Name:String?{
         return UserDefaults.standard.object(forKey: Oauth.kFlickrLoggedInUserName) as! String?
     }
+    
+    var authorized: Bool{
+        var authorized = false
+        if let _ = UserDefaults.standard.object(forKey: Oauth.kFlickrLoggedInUserID){
+            authorized = true
+        }
+        return authorized
+    }
+    
 
 }

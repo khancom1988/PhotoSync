@@ -59,7 +59,7 @@ class PhotoInfo:NSObject{
     
     func downLoadPhotoWithSize(size:ImageType = ImageType.eThumbnail, callBack callback:@escaping (_ image:UIImage?,_ error:NSError?, _ photoInfo:PhotoInfo) -> Void) -> Void{
         
-        if let url = self.flickrImageURL(size){
+        if let url = self.flickrImageURL(size), Oauth.default.authorized == true {
            
             HttpClient.requestWith(url: url.absoluteString, completionHandler:{(error,data) -> Void in
                 if let imageData = data, let image = UIImage(data: imageData) {

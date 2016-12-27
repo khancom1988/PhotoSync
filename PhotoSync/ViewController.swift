@@ -10,9 +10,9 @@ import UIKit
 
 class ViewController: UIViewController,UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout {
 
-    let defaut_Page_Size = 10
+    let defaut_Page_Size = 20
 
-    private var pageInfo = PageInfo(pageNumber: 1,pageSize: 10)
+    private var pageInfo = PageInfo(pageNumber: 1,pageSize: 20)
     private let reuseIdentifier = "FlickrCell"
     private let sectionInsets = UIEdgeInsets(top: -50.0, left: 20.0, bottom: 50.0, right: 20.0)
     
@@ -45,25 +45,39 @@ class ViewController: UIViewController,UICollectionViewDelegate,UICollectionView
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
+    @IBAction func logout(_ sender: Any) {
+        Oauth.default.logout()
+        self.datasource.removeAll()
+        self.collectionView.reloadData()
+        self.pageInfo.pageNumber = 1
+        self.pageInfo.pageSize = defaut_Page_Size
+        self.navigationController?.performSegue(withIdentifier: "ShowLoginView", sender: nil)
+    }
 
     private func fetchPublicPhotosFromFlickrWithPageInfo(_ pageInfo:PageInfo) -> Void {
         
         self.activityIndicator.startAnimating()
         self.syncing = true
         Flickr.getPublicPhotos(Oauth.default, pageInfo, callback:{ (error,results) -> Void in
-            DispatchQueue.main.async { () -> Void in
-                if(error == nil){
-                    
-                    self.datasource.append(contentsOf: results!)
-                    self.collectionView.reloadData()
+           
+            if Oauth.default.authorized{
+               
+                DispatchQueue.main.async { () -> Void in
+                    if(error == nil){
+                        
+                        self.datasource.append(contentsOf: results!)
+                        self.collectionView.reloadData()
+                    }
+                    else{
+                        let alert = UIAlertController(title: "Alert", message: error?.localizedDescription, preferredStyle: UIAlertControllerStyle.alert)
+                        alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
+                        self.present(alert, animated: true, completion: nil)
+                    }
+                    self.activityIndicator.stopAnimating()
+                    self.syncing = false
                 }
-                else{
-                    let alert = UIAlertController(title: "Alert", message: error?.localizedDescription, preferredStyle: UIAlertControllerStyle.alert)
-                    alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
-                    self.present(alert, animated: true, completion: nil)
-                }
-                self.activityIndicator.stopAnimating()
-                self.syncing = false
+
             }
         })
     }
@@ -89,11 +103,14 @@ class ViewController: UIViewController,UICollectionViewDelegate,UICollectionView
             cell.imageView.image = nil
             cell.activityIndicator.startAnimating()
             photoInfo.downLoadPhotoWithSize(callBack: { (image, error, photoInfo) in
-                DispatchQueue.main.async { () -> Void in
-                    if let cell = collectionView.cellForItem(at: indexPath) as? CollectionViewCell{
-                        cell.imageView.image = photoInfo.thumbnail
-                        cell.activityIndicator.stopAnimating()
+                if Oauth.default.authorized{
+                    DispatchQueue.main.async { () -> Void in
+                        if let cell = collectionView.cellForItem(at: indexPath) as? CollectionViewCell{
+                            cell.imageView.image = photoInfo.thumbnail
+                            cell.activityIndicator.stopAnimating()
+                        }
                     }
+
                 }
             })
         }

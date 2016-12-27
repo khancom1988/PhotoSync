@@ -11,7 +11,7 @@ import UIKit
 class LoginViewController: UIViewController {
     
     @IBOutlet weak var signInButton: UIButton!
-    
+    private var authorizing = false
     deinit {
         Oauth.default.callBack = nil
     }
@@ -38,12 +38,14 @@ class LoginViewController: UIViewController {
     
     @IBAction func loginButtonAction(_ sender: Any) {
         
+        if self.authorizing {return}
+        
         Oauth.default.oauth_callback = "oauth-photosync://oauth-callback/flickr"
         Oauth.default.oauth_consumer_key = "61cbac5b962cbeb41853338b6c6f32bb"
         Oauth.default.oauth_secret_key = "8c54fa4f64924a8a"
         Oauth.default.requestMethod = .eGET
         Oauth.default.requestToken()
-        
+        self.authorizing = true
         Oauth.default.callBack = {(success, message) -> Void in
         
             if (success){
@@ -56,6 +58,8 @@ class LoginViewController: UIViewController {
                 alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
                 self.present(alert, animated: true, completion: nil)
             }
+            self.authorizing = false
+
         }
     }
     
