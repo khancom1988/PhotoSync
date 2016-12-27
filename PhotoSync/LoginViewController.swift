@@ -11,7 +11,7 @@ import UIKit
 class LoginViewController: UIViewController {
     
     @IBOutlet weak var signInButton: UIButton!
-   
+    
     deinit {
         Oauth.default.callBack = nil
     }
@@ -57,6 +57,6 @@ class LoginViewController: UIViewController {
                 self.present(alert, animated: true, completion: nil)
             }
         }
-        
     }
+    
 }

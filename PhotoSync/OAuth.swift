@@ -9,11 +9,6 @@
 import Foundation
 import UIKit
 
-class User {
-    var user_name:String?
-    var user_id:String?
-}
-
 class Oauth  {
     
     public static var `default`: Oauth { return defaultOauth }
@@ -38,29 +33,19 @@ class Oauth  {
     private var oauth_verifier:String?
     private var oauth_token_secret:String?
     
-    private var user = User()
+    private var user_name:String?
+    private var user_id:String?
     
     public typealias oauthCallBack = (Bool,String) -> ()
 
     public var callBack: oauthCallBack?
-    
 
-    var accessToken:String?{
-        return self.oauth_token
-    }
-    
-    var consumer_key:String?{
-        return self.oauth_consumer_key
-    }
-    
-    var user_ID:String?{
-        return self.user.user_id
-    }
-    
-    var user_name:String?{
-        return self.user.user_name
-    }
+    private static let kFlickrLoggedInUserName = "PhotoSync_Flickr_LoggedIn_UserName"
+    private static let kFlickrLoggedInUserID = "PhotoSync_Flickr_LoggedIn_UserID"
+    private static let kFlickrLoggedInConsumerKey = "PhotoSync_Flickr_LoggedIn_Consumer_key"
+    private static let kFlickrLoggedInAccessToken = "PhotoSync_Flickr_LoggedIn_Access_Token"
 
+    
     public func requestToken() -> Void{
         
         assert((oauth_secret_key != nil), "SECRET KEY CAN'T BE NIL")
@@ -189,15 +174,6 @@ class Oauth  {
         
         
         return signatureBaseString.hmac(algorithm: CryptoAlgorithm.SHA1, key: signingKey)
-        
-//        let key = signingKey.data(using: .utf8)!
-//        let msg = signatureBaseString.data(using: .utf8)!
-//        
-//        if let sha1 = HMAC.sha1(key: key, message: msg){
-//            return sha1.base64EncodedString(options: [])
-//            
-//        }
-//        return nil
     }
     
     private func authorize() -> Void{
@@ -240,15 +216,23 @@ class Oauth  {
                     let parameters = response?.dictionaryBySplitting("&", keyValueSeparator: "=")
                   
                     if let oauth_token = parameters?["oauth_token"],
-                       
                         let oauth_token_secret = parameters?["oauth_token_secret"],
                         let user_id = parameters?["user_nsid"],
                         let user_name = parameters?["username"]{
 
                         self.oauth_token = oauth_token.safeStringByRemovingPercentEncoding
                         self.oauth_token_secret = oauth_token_secret.safeStringByRemovingPercentEncoding
-                        self.user.user_id = user_id.safeStringByRemovingPercentEncoding
-                        self.user.user_name = user_name.safeStringByRemovingPercentEncoding
+                        self.user_id = user_id.safeStringByRemovingPercentEncoding
+                        self.user_name = user_name.safeStringByRemovingPercentEncoding
+                        
+                        
+                        let userDefault = UserDefaults.standard
+                        userDefault.setValue(self.oauth_token_secret, forKey: Oauth.kFlickrLoggedInAccessToken)
+                        userDefault.setValue(self.user_id, forKey: Oauth.kFlickrLoggedInUserID)
+                        userDefault.setValue(self.user_name, forKey: Oauth.kFlickrLoggedInUserName)
+                        userDefault.setValue(self.oauth_consumer_key!, forKey: Oauth.kFlickrLoggedInConsumerKey)
+                        userDefault.synchronize()
+                        
                         self.callBackWithStatus(true, "")
                     }
                     else if let fail_reason = parameters?["oauth_problem"]{
@@ -259,7 +243,6 @@ class Oauth  {
                     }
                 }
             })
-            
         }
     }
     
@@ -272,4 +255,23 @@ class Oauth  {
             self.callBack?(status, message)
         }
     }
+    
+    // MARK: Getters
+    
+    var accessToken:String?{
+        return UserDefaults.standard.object(forKey: Oauth.kFlickrLoggedInAccessToken) as! String?
+    }
+    
+    var consumer_key:String?{
+        return UserDefaults.standard.object(forKey: Oauth.kFlickrLoggedInConsumerKey) as! String?
+    }
+    
+    var user_ID:String?{
+        return UserDefaults.standard.object(forKey: Oauth.kFlickrLoggedInUserID) as! String?
+    }
+    
+    var user_Name:String?{
+        return UserDefaults.standard.object(forKey: Oauth.kFlickrLoggedInUserName) as! String?
+    }
+
 }

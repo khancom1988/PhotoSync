@@ -16,8 +16,11 @@
 		600C38AA1E0980A600E861E0 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 600C38A91E0980A600E861E0 /* LoginViewController.swift */; };
 		600C38AC1E09883600E861E0 /* HttpClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 600C38AB1E09883600E861E0 /* HttpClient.swift */; };
 		600C38AF1E09A51100E861E0 /* Utility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 600C38AE1E09A51100E861E0 /* Utility.swift */; };
-		606061F51E10DF6D00FC6582 /* SHA1-HMAC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 606061F41E10DF6D00FC6582 /* SHA1-HMAC.swift */; };
 		606061F71E10E8AC00FC6582 /* OAuth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 606061F61E10E8AC00FC6582 /* OAuth.swift */; };
+		606061F91E121DCA00FC6582 /* Flickr.swift in Sources */ = {isa = PBXBuildFile; fileRef = 606061F81E121DC900FC6582 /* Flickr.swift */; };
+		606061FB1E121E1A00FC6582 /* FlickrObj.swift in Sources */ = {isa = PBXBuildFile; fileRef = 606061FA1E121E1A00FC6582 /* FlickrObj.swift */; };
+		606062001E12589A00FC6582 /* CollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 606061FF1E12589A00FC6582 /* CollectionViewCell.swift */; };
+		606062021E1273C300FC6582 /* OrginalImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 606062011E1273C300FC6582 /* OrginalImageViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -45,8 +48,11 @@
 		600C38AB1E09883600E861E0 /* HttpClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HttpClient.swift; sourceTree = "<group>"; };
 		600C38AE1E09A51100E861E0 /* Utility.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utility.swift; sourceTree = "<group>"; };
 		600C38B01E09A54600E861E0 /* PhotoSync-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PhotoSync-Bridging-Header.h"; sourceTree = "<group>"; };
-		606061F41E10DF6D00FC6582 /* SHA1-HMAC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SHA1-HMAC.swift"; sourceTree = "<group>"; };
 		606061F61E10E8AC00FC6582 /* OAuth.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OAuth.swift; sourceTree = "<group>"; };
+		606061F81E121DC900FC6582 /* Flickr.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Flickr.swift; sourceTree = "<group>"; };
+		606061FA1E121E1A00FC6582 /* FlickrObj.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FlickrObj.swift; sourceTree = "<group>"; };
+		606061FF1E12589A00FC6582 /* CollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewCell.swift; sourceTree = "<group>"; };
+		606062011E1273C300FC6582 /* OrginalImageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrginalImageViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -89,12 +95,15 @@
 			isa = PBXGroup;
 			children = (
 				600C38891E097F3400E861E0 /* AppDelegate.swift */,
-				600C388B1E097F3400E861E0 /* ViewController.swift */,
 				600C38A91E0980A600E861E0 /* LoginViewController.swift */,
+				600C388B1E097F3400E861E0 /* ViewController.swift */,
+				606062011E1273C300FC6582 /* OrginalImageViewController.swift */,
 				606061F61E10E8AC00FC6582 /* OAuth.swift */,
 				600C38AE1E09A51100E861E0 /* Utility.swift */,
 				600C38AB1E09883600E861E0 /* HttpClient.swift */,
-				606061F41E10DF6D00FC6582 /* SHA1-HMAC.swift */,
+				606061F81E121DC900FC6582 /* Flickr.swift */,
+				606061FA1E121E1A00FC6582 /* FlickrObj.swift */,
+				606061FF1E12589A00FC6582 /* CollectionViewCell.swift */,
 				600C388D1E097F3400E861E0 /* Main.storyboard */,
 				600C38901E097F3400E861E0 /* Assets.xcassets */,
 				600C38921E097F3400E861E0 /* LaunchScreen.storyboard */,
@@ -218,10 +227,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				600C38AF1E09A51100E861E0 /* Utility.swift in Sources */,
+				606061F91E121DCA00FC6582 /* Flickr.swift in Sources */,
+				606062001E12589A00FC6582 /* CollectionViewCell.swift in Sources */,
 				606061F71E10E8AC00FC6582 /* OAuth.swift in Sources */,
+				606062021E1273C300FC6582 /* OrginalImageViewController.swift in Sources */,
 				600C38AA1E0980A600E861E0 /* LoginViewController.swift in Sources */,
-				606061F51E10DF6D00FC6582 /* SHA1-HMAC.swift in Sources */,
 				600C388C1E097F3400E861E0 /* ViewController.swift in Sources */,
+				606061FB1E121E1A00FC6582 /* FlickrObj.swift in Sources */,
 				600C38AC1E09883600E861E0 /* HttpClient.swift in Sources */,
 				600C388A1E097F3400E861E0 /* AppDelegate.swift in Sources */,
 			);
